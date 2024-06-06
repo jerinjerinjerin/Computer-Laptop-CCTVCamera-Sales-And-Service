@@ -1,0 +1,153 @@
+:root {
+	font-size: 18px;
+	--background-color: blue;
+	--inner-cursor-border-color: green;
+	--mid-cursor-border-color: rgba(255, 255, 255, .5);
+	--outer-cursor-border-color: red;
+
+	--inner-border-size: 1px;
+	--mid-border-size: 2px;
+	--outer-border-size: 8px;
+
+	--cursor-size: 40px;
+	--inner-cursor-size: calc(.6 * var(--cursor-size));
+	--mid-cursor-size: var(--cursor-size);
+	--outer-cursor-size: calc(1.2 * var(--cursor-size));
+
+	--inner-cursor-margin: calc((var(--mid-cursor-size) / 2) - (var(--inner-cursor-size) / 2) - var(--mid-border-size));
+	--mid-cursor-margin: calc(-.5 * var(--mid-cursor-size));
+	--outer-cursor-margin: calc((var(--mid-cursor-size) / 2) - (var(--outer-cursor-size) / 2) - var(--mid-border-size));
+
+	--transition-duration: 200ms;
+}
+
+
+body.custom-cursor-active {
+	cursor: none;
+}
+
+/* ==========================================================================
+	   Example area - Every possible cursor
+	   ========================================================================== */
+
+.cursors {
+	display: flex;
+	flex-wrap: wrap;
+	text-align: center;
+}
+
+.cursors>div {
+	flex: 150px;
+	padding: 10px 2px;
+	white-space: nowrap;
+	border: 1px solid #eee;
+	border-radius: 5px;
+	margin: 0 5px 5px 0;
+}
+
+.cursors>div:hover {
+	background: rgba(12, 12, 52, .5);
+	color: #666666
+}
+
+/* ==========================================================================
+	   Custom Cursor Kerfuffle
+	   ========================================================================== */
+
+.custom-cursor::before,
+.custom-cursor::after,
+.custom-cursor {
+	position: absolute;
+	border-radius: 50%;
+	box-sizing: border-box;
+}
+
+.custom-cursor::before,
+.custom-cursor::after {
+	content: "";
+}
+
+.custom-cursor {
+	margin-top: var(--mid-cursor-margin);
+	margin-left: var(--mid-cursor-margin);
+	width: var(--mid-cursor-size);
+	height: var(--mid-cursor-size);
+
+	border: var(--mid-border-size) solid var(--mid-cursor-border-color);
+	display: inline-block;
+	transition-duration: var(--transition-duration);
+	transition-timing-function: ease-out;
+	animation: mid-cursor-animation .5s infinite alternate;
+	pointer-events: none;
+}
+
+.custom-cursor::before {
+	content: "";
+	border: var(--inner-border-size) solid var(--inner-cursor-border-color);
+	width: calc(var(--inner-cursor-size));
+	height: calc(var(--inner-cursor-size));
+	margin-top: var(--inner-cursor-margin);
+	margin-left: var(--inner-cursor-margin);
+	animation: inner-cursor-animation .11s infinity alternate;
+	animation-delay: .2s;
+}
+
+.custom-cursor::after {
+	content: "";
+	border: var(--outer-border-size) solid var(--outer-cursor-border-color);
+	width: var(--outer-cursor-size);
+	height: var(--outer-cursor-size);
+	margin-top: var(--outer-cursor-margin);
+	margin-left: var(--outer-cursor-margin);
+	animation: outer-cursor-animation .7s infinite alternate;
+}
+
+/* ==========================================================================
+	   Custom Cursor Animations
+	   ========================================================================== */
+
+@keyframes mid-cursor-animation {
+	from {
+		transform: scale(1);
+	}
+
+	to {
+		transform: scale(.7);
+	}
+}
+
+@keyframes outer-cursor-animation {
+	from {
+		transform: scale(1);
+	}
+
+	to {
+		transform: scale(.4);
+	}
+}
+
+@keyframes inner-cursor-animation {
+	from {
+		transform: scale(.1);
+	}
+
+	to {
+		transform: scale(3);
+	}
+}
+
+
+@keyframes custom-cursor-click {
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(3);
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 0;
+	}
+}
